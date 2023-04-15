@@ -2,12 +2,13 @@ package com.warier.projeto.Model;
 
 public class Cliente {
     private String nome;
-    private String endereco;
+    private String cpf;
     private String telefone;
+    
 
     public Cliente(String nome, String endereco, String telefone) {
         this.nome = nome;
-        this.endereco = endereco;
+        this.cpf = endereco;
         this.telefone = telefone;
     }
 
@@ -20,11 +21,11 @@ public class Cliente {
     }
 
     public String getEndereco() {
-        return endereco;
+        return cpf;
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.cpf = endereco;
     }
 
     public String getTelefone() {

@@ -10,9 +10,9 @@ import java.util.List;
 
 public class Controller {
 
-    private List<Item> itens = new ArrayList<>();
-    private List<Cliente> clientes = new ArrayList<>();
-    private List<Pedido> pedidos = new ArrayList<>();
+    private final List<Item> itens = new ArrayList<>();
+    private final List<Cliente> clientes = new ArrayList<>();
+    private final List<Pedido> pedidos = new ArrayList<>();
 
     public void criarItem(String nome, double preco, String descricao){
         itens.add(new Item(nome, BigDecimal.valueOf(preco), descricao));
