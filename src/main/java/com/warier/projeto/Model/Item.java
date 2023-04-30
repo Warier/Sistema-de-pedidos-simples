@@ -1,10 +1,11 @@
 package com.warier.projeto.Model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Item {
+public class Item implements Serializable{
+    private static long serialVersionUID = 1L;
     private String nome;
-    private int quantidade;
     private BigDecimal precoUnitario;
     private String descricao;
 
@@ -22,13 +23,6 @@ public class Item {
         this.nome = nome;
     }
 
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
 
     public BigDecimal getPrecoUnitario() {
         return precoUnitario;

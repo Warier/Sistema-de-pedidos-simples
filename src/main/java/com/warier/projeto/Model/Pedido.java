@@ -1,15 +1,17 @@
 package com.warier.projeto.Model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class Pedido {
+public class Pedido implements Serializable{
+    private static long serialVersionUID = 1L;
     private int numero;
-    private String dataHora;
-    private List<Item> itens;
+    private List<Item> itens = new ArrayList<>();
     private BigDecimal valorTotal;
     private Cliente cliente;
 
@@ -17,20 +19,20 @@ public class Pedido {
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
-        this. gerarNumeroDePedido();
-        Date dataHora = new Date();
-        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        this.dataHora = formatador.format(dataHora);
+        this.gerarNumeroDePedido();
         pedidoAberto = true;
+    }
+    
+    public Pedido(int numero, Cliente cliente, double preco){
+        this.numero = numero;
+        this.cliente = cliente;
+        this.valorTotal = BigDecimal.valueOf(preco);
     }
 
     public int getNumero() {
         return numero;
     }
 
-    public String getDataHora() {
-        return dataHora;
-    }
 
     public List<Item> getItens() {
         return itens;
@@ -41,25 +43,36 @@ public class Pedido {
         return cliente;
     }
 
-    public void setItens(List<Item> itens) {
-        this.itens = itens;
+    public void setItens(Item e) {
+        this.itens.add(e);
     }
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public int gerarNumeroDePedido() {
-        Random rand = new Random();
-        int numeroDePedido = rand.nextInt(900000000) + 100000000;
-        return numeroDePedido;
+    public BigDecimal getValorTotal() {
+        return valorTotal;
     }
 
-    public BigDecimal fecharPedido(){
+    public boolean isPedidoAberto() {
+        return pedidoAberto;
+    }
+    
+    
+
+    public int gerarNumeroDePedido() {
+        Random rand = new Random();
+        this.numero = rand.nextInt(900000000) + 100000000;
+        return numero;
+    }
+
+    public void fecharPedido(){
+        this.valorTotal = BigDecimal.valueOf(0);
         for(Item x: this.itens){
-            this.valorTotal.add(x.getPrecoUnitario());
+            this.valorTotal = this.valorTotal.add(x.getPrecoUnitario());
         }
         pedidoAberto = false;
-        return this.valorTotal;
+        
     }
 }

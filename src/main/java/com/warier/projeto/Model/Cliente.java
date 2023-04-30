@@ -1,6 +1,9 @@
 package com.warier.projeto.Model;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable{
+    private static long serialVersionUID = 1L;
     private String nome;
     private String cpf;
     private String telefone;

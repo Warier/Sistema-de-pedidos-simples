@@ -4,7 +4,15 @@
  */
 package com.warier.projeto.View;
 
+import com.warier.projeto.Controller.*;
+import com.warier.projeto.Model.*;
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
+import java.lang.NumberFormatException;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,12 +20,19 @@ import java.awt.CardLayout;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaPrincipal
-     */
+    Controller control;
+    SalvarLerDados save;
+    SalvarLerDadosBin savebin = new SalvarLerDadosBin();
+    Cliente clien = null;
+    Item item = null;
+    
+    
     public TelaPrincipal() {
+        this.control = savebin.carregar();
+        //this.save = new SalvarLerDados(this.control);
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,6 +53,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,6 +63,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
+        jButton7 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -63,11 +80,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -79,21 +94,51 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jButton10 = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
+        jTextField11 = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de pedidos");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         mainPanel.setLayout(new java.awt.CardLayout());
 
@@ -104,11 +149,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel8.setText("Telefone:");
 
-        jLabel9.setText("Endereco:");
+        jLabel9.setText("CPF:");
 
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Cadastrar");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
             }
         });
 
@@ -121,15 +173,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(117, 117, 117))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(76, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jButton6)))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,7 +205,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(9, 9, 9)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addComponent(jButton6)
+                .addContainerGap(125, Short.MAX_VALUE))
         );
 
         mainPanel.add(jPanel4, "card4");
@@ -163,6 +222,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel4.setText("Descricao:");
 
         jScrollPane1.setViewportView(jTextPane1);
+
+        jButton7.setText("Cadastrar");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -185,8 +256,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(jButton7)))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +279,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton7)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         mainPanel.add(jPanel2, "card2");
@@ -215,15 +291,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Preco"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setToolTipText("Clique duas vezes para editar linha");
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -232,7 +319,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(135, 135, 135)
@@ -256,15 +343,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "CPF", "Nome", "Telefone"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -273,7 +373,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -292,25 +392,41 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         mainPanel.add(jPanel1, "card5");
 
+        jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         jLabel11.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         jLabel11.setText("Criar pedido");
 
         jLabel12.setText("CPF do cliente");
 
-        jTextField6.setForeground(new java.awt.Color(204, 204, 204));
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Pesquisar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cadastrar");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Adicionar itens");
 
-        jTextField7.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField7.setText("Quantidade");
-
         jButton3.setText("Adicionar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -320,108 +436,115 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Title 1", "Title 2"
+                "Nome", "Preco"
             }
-        ));
-        jScrollPane4.setViewportView(jTable3);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        jButton4.setText("Criar pedido");
-        jButton4.setToolTipText("Abre o pedido e o deixa aberto para modificacoes");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jTable3);
 
         jButton5.setText("Fechar pedido");
         jButton5.setToolTipText("finaliza o pedido para que nenhum outro item possa ser adicionado e a compra concluida");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Preco total:");
-
-        jLabel15.setText("jLabel15");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel11)
-                .addGap(142, 142, 142))
+                .addGap(163, 163, 163))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(19, 19, 19)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jButton1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton2))
-                                    .addComponent(jButton3)))
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel12)))
+                                .addComponent(jLabel15))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37)
+                                .addComponent(jButton3))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jButton4)
-                        .addGap(84, 84, 84)
-                        .addComponent(jButton5))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel15)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                        .addGap(143, 143, 143)
+                        .addComponent(jButton5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel11)
-                .addGap(18, 18, 18)
+                .addGap(13, 13, 13)
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jLabel15))
-                .addGap(16, 16, 16)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addGap(87, 87, 87))
         );
 
         mainPanel.add(jPanel5, "card6");
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Cliente", "Horario", "Valor Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane5.setViewportView(jTable4);
 
         jLabel16.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
@@ -431,19 +554,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(119, 119, 119)
                 .addComponent(jLabel16)
-                .addGap(120, 120, 120))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel16)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -454,13 +577,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Cliente", "Identificacao", "Valor Total"
             }
         ));
         jScrollPane6.setViewportView(jTable5);
@@ -470,7 +593,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+                .addContainerGap(110, Short.MAX_VALUE)
                 .addComponent(jLabel17)
                 .addGap(95, 95, 95))
             .addGroup(jPanel7Layout.createSequentialGroup()
@@ -489,6 +612,181 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
 
         mainPanel.add(jPanel7, "card8");
+
+        jLabel18.setText("CPF");
+
+        jLabel19.setText("Nome");
+
+        jLabel20.setText("Telefone");
+
+        jButton4.setText("Editar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Excluir");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Pesquisar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        jLabel21.setText("Editar Cliente");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel18)
+                            .addComponent(jTextField8)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                                .addComponent(jButton9)
+                                .addGap(30, 30, 30))
+                            .addComponent(jTextField9)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jButton4)
+                        .addGap(78, 78, 78)
+                        .addComponent(jButton8)))
+                .addContainerGap(49, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel21)
+                .addGap(143, 143, 143))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel19)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel20)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton8))
+                .addContainerGap(95, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(jPanel8, "card9");
+
+        jLabel22.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        jLabel22.setText("Editar Pedido");
+
+        jLabel23.setText("Nome");
+
+        jButton10.setText("Pesquisar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jLabel24.setText("Preco");
+
+        jLabel25.setText("Descricao");
+
+        jButton11.setText("Editar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Excluir");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(jLabel22))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel24)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                                    .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(48, 48, 48)
+                                .addComponent(jButton10))
+                            .addComponent(jLabel25)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(jButton11)
+                        .addGap(87, 87, 87)
+                        .addComponent(jButton12)))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel22)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel23)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel24)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel25)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(jPanel9, "card10");
 
         jMenu2.setText("Itens");
 
@@ -518,6 +816,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem2);
 
+        jMenuItem8.setText("Editar Item");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
         jMenuBar.add(jMenu2);
 
         jMenu3.setText("Clientes");
@@ -538,6 +844,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem4);
 
+        jMenuItem6.setText("Editar cliente");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
         jMenuBar.add(jMenu3);
 
         jMenu4.setText("Pedidos");
@@ -550,14 +864,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem5);
 
-        jMenuItem6.setText("Pedidos abertos");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem6);
-
         jMenuItem7.setText("Historico de pedidos");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -567,6 +873,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu4.add(jMenuItem7);
 
         jMenuBar.add(jMenu4);
+
+        jMenu5.setText("Salvar");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
+        jMenuBar.add(jMenu5);
 
         setJMenuBar(jMenuBar);
 
@@ -590,6 +909,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseClicked
         mostrarCard("card3");
+        listaItens();
+            
     }//GEN-LAST:event_jMenuItem2MouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -598,10 +919,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         mostrarCard("card3");
+        listaItens();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -610,25 +932,306 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         mostrarCard("card5");
+        listaClientes();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        comboBoxInsert();
         mostrarCard("card6");
+        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        mostrarCard("card7");
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         mostrarCard("card8");
+        listaPedidos();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        double x = 0;
+        try{
+            if(jTextField1.getText().isBlank() || jTextField2.getText().isBlank()){
+                JOptionPane.showMessageDialog(this, "Nao deixe campos vazios",
+                    "Formato incorreto", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            x = Double.parseDouble(jTextField2.getText());
+            if (x < 0){
+                throw new NumberFormatException();
+            }
+            control.criarItem(jTextField1.getText(), x, jTextPane1.getText());
+        
+            JOptionPane.showMessageDialog(this, "Nome: " + control.getItens().get(control.getItens().size() - 1).getNome() + 
+                "\npreco: " + control.getItens().get(control.getItens().size() - 1).getPrecoUnitario().toString() +
+                "\ncomentario: " + control.getItens().get(control.getItens().size() - 1).getDescricao(),
+                    "Item cadastrado", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Use apenas numeros reais positivos",
+                    "Formato incorreto", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        try{
+            Long.parseLong(jTextField5.getText());
+            if (jTextField5.getText().length() != 11) { 
+              throw new NumberFormatException();
+            }
+            
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Digite apenas 11 numeros",
+                    "Formato incorreto", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(jTextField3.getText().isBlank() || jTextField5.getText().isBlank() || jTextField4.getText().isBlank()){
+            JOptionPane.showMessageDialog(this, "Nao deixe campos vazios",
+                    "Formato incorreto", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            control.cadastrarCliente(jTextField3.getText(), jTextField5.getText(), jTextField4.getText());
+            JOptionPane.showMessageDialog(this, "Nome: " + jTextField3.getText() +
+                "\nCPF: " + jTextField5.getText() +
+                "\nTelefone: " + jTextField4.getText(),
+                    "Cliente cadastrado", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Cliente clien = control.buscarCliente(jTextField6.getText());
+        if(clien == null){
+           
+            JOptionPane.showMessageDialog(this, "Cliente nao encontrado",
+                    "Busca", JOptionPane.ERROR_MESSAGE);
+            return;
+            
+        }
+       
+        JOptionPane.showMessageDialog(this, "Cliente encontrado",
+                "Busca", JOptionPane.INFORMATION_MESSAGE);
+        control.setPedido(clien);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        control.getPedido().setItens(control.getItens().get(jComboBox1.getSelectedIndex()));
+        listaPedidoItens();
+        jLabel15.setText(String.valueOf(control.getPreco()));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if( control.pedidoVazio()){
+            JOptionPane.showMessageDialog(this, "Pedido nao pode ser fechado",
+                    "Busca", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!control.getPedido().isPedidoAberto()){
+            JOptionPane.showMessageDialog(this, "Pedido nao pode ser fechado",
+                    "Busca", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        control.getPedido().fecharPedido();
+        control.getPedidos().add(control.getPedido());
+        JOptionPane.showMessageDialog(this, "Pedido finalizado",
+                "Pedido", JOptionPane.INFORMATION_MESSAGE);
+        control.esvaziaPedido();
+        jLabel15.setText("");
+        DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+        dtm.setRowCount(0);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        mostrarCard("card4");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        //save.salvar();
+        savebin.salvar(control);
+        JOptionPane.showMessageDialog(this, "Salvo com sucesso",
+                    "Salvar", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        mostrarCard("card9");
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        clien = control.buscarCliente(jTextField7.getText());
+        if(clien == null){
+            JOptionPane.showMessageDialog(this, "Nao encontrado",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Cliente encontrado",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+        jTextField8.setText(clien.getNome());
+        jTextField9.setText(clien.getTelefone());
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(clien == null){
+            JOptionPane.showMessageDialog(this, "Sem Cliente",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if(jTextField8.getText().isBlank() || jTextField9.getText().isBlank()){
+            JOptionPane.showMessageDialog(this, "Nao deixar campos vazios",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        clien.setNome(jTextField8.getText());
+        clien.setTelefone(jTextField9.getText());
+        JOptionPane.showMessageDialog(this, "Cliente Editado",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        if(clien == null){
+            JOptionPane.showMessageDialog(this, "Sem Cliente",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        control.apagarCliente(clien);
+        clien = null;
+        JOptionPane.showMessageDialog(this, "Cliente excluido",
+                    "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        mostrarCard("card10");
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        item = control.buscaItem(jTextField10.getText());
+        if(item == null){
+            JOptionPane.showMessageDialog(this, "Nao encontrado",
+                    "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Item encontrado",
+                    "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
+        jTextField11.setText(item.getPrecoUnitario().toString());
+        jTextField12.setText(item.getDescricao());
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        double x = 0;
+        if(item == null){
+            JOptionPane.showMessageDialog(this, "Nao encontrado",
+                    "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        try{
+            if(jTextField11.getText().isBlank() || jTextField12.getText().isBlank()){
+                JOptionPane.showMessageDialog(this, "Nao deixe campos vazios",
+                    "Formato incorreto", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            x = Double.parseDouble(jTextField11.getText());
+            if (x < 0){
+                throw new NumberFormatException();
+            }
+            item.setPrecoUnitario(BigDecimal.valueOf(x));
+            item.setDescricao(jTextField12.getText());
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Use apenas numeros reais positivos",
+                    "Formato incorreto", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Item editado",
+                    "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        if(item == null){
+            JOptionPane.showMessageDialog(this, "Nao encontrado",
+                    "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        control.apagarItem(item);
+        item = null;
+        JOptionPane.showMessageDialog(this, "Item excluido",
+                    "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void listaItens(){
+        DefaultTableModel tabItens = (DefaultTableModel) jTable1.getModel();
+        tabItens.setRowCount(0);
+        for(int i = 0; i < control.getItens().size(); i++){
+            tabItens.insertRow(i, new Object []{control.getItens().get(i).getNome(), control.getItens().get(i).getPrecoUnitario().toString()});
+        }
+        tabItens.setRowCount(control.getItens().size());
+        tabItens.fireTableDataChanged();
+        jTable1.setModel(tabItens); 
+    }
     
+    private void listaPedidoItens(){
+        DefaultTableModel tabItens = (DefaultTableModel) jTable3.getModel();
+        tabItens.setRowCount(0);
+        for(int i = 0; i < control.getPedido().getItens().size(); i++){
+            tabItens.insertRow(i, new Object []{control.getPedido().getItens().get(i).getNome(), control.getPedido().getItens().get(i).getPrecoUnitario().toString()});
+        }
+        tabItens.setRowCount(control.getPedido().getItens().size());
+        tabItens.fireTableDataChanged();
+        jTable3.setModel(tabItens); 
+    }
     
+    private void comboBoxInsert(){
+        jComboBox1.removeAllItems();
+        for(int i = 0; i < control.getItens().size(); i++){
+            jComboBox1.addItem(control.getItens().get(i).getNome());
+        }
+    }
     
+    private void listaClientes(){
+        DefaultTableModel tabClientes = (DefaultTableModel) jTable2.getModel();
+        tabClientes.setRowCount(0);
+        for(int i = 0; i < control.getClientes().size(); i++){
+            tabClientes.insertRow(i, new Object []{control.getClientes().get(i).getEndereco(), control.getClientes().get(i).getNome(), control.getClientes().get(i).getTelefone()});
+        }
+        tabClientes.setRowCount(control.getClientes().size());
+        tabClientes.fireTableDataChanged();
+        jTable2.setModel(tabClientes);
+        
+    }
     
-    
+    private void listaPedidos(){
+        DefaultTableModel tabPedidos = (DefaultTableModel) jTable5.getModel();
+        tabPedidos.setRowCount(0);
+        for(int i = 0; i < control.getPedidos().size(); i++){
+            tabPedidos.insertRow(i, new Object []{ control.getPedidos().get(i).getCliente().getNome(), 
+                control.getPedidos().get(i).getNumero(), 
+                control.getPedidos().get(i).getValorTotal().toString()});
+        }
+        tabPedidos.setRowCount(control.getPedidos().size());
+        tabPedidos.fireTableDataChanged();
+        jTable5.setModel(tabPedidos);
+        
+    }
     
     private void mostrarCard(String name){
         CardLayout card = (CardLayout)mainPanel.getLayout();
@@ -671,10 +1274,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -685,7 +1295,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -697,6 +1315,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -705,6 +1324,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -712,6 +1332,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -724,12 +1346,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables

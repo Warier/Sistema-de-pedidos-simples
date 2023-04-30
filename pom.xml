@@ -11,4 +11,12 @@
         <maven.compiler.target>19</maven.compiler.target>
         <exec.mainClass>com.warier.projeto.Projeto</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
