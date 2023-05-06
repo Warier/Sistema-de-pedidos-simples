@@ -83,7 +83,7 @@ public class Controller implements Serializable{
         return false;
     }
 
-    public boolean existe(@org.jetbrains.annotations.NotNull Object x){
+    public boolean existe(Object x){
         if(x.getClass() == Item.class){
             if(itens.contains(x)){
                 return true;

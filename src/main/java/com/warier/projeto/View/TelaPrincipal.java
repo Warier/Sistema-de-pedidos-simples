@@ -21,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 public class TelaPrincipal extends javax.swing.JFrame {
 
     Controller control;
-    SalvarLerDados save;
     SalvarLerDadosBin savebin = new SalvarLerDadosBin();
     Cliente clien = null;
     Item item = null;
@@ -1022,7 +1021,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        control.getPedido().setItens(control.getItens().get(jComboBox1.getSelectedIndex()));
+        try{
+            control.getPedido().setItens(control.getItens().get(jComboBox1.getSelectedIndex()));
+        }catch (IndexOutOfBoundsException e){
+            return;
+        }
         listaPedidoItens();
         jLabel15.setText(String.valueOf(control.getPreco()));
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -1057,7 +1060,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu5ActionPerformed
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
-        //save.salvar();
+
         savebin.salvar(control);
         JOptionPane.showMessageDialog(this, "Salvo com sucesso",
                     "Salvar", JOptionPane.INFORMATION_MESSAGE);

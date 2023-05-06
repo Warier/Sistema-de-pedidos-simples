@@ -32,11 +32,11 @@ public class SalvarLerDadosBin {
         ler.close();
         return controller;
         }catch (ClassNotFoundException erro) {
-            erro.printStackTrace();
+            return new Controller();
         } catch (IOException erro) {
-            erro.printStackTrace();
+            return new Controller();
         }
-        return new Controller();
+
     }
     
     public void salvar(Controller controle){
