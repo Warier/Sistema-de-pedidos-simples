@@ -21,13 +21,12 @@ import javax.swing.table.DefaultTableModel;
 public class TelaPrincipal extends javax.swing.JFrame {
 
     Controller control;
-    SalvarLerDadosBin savebin = new SalvarLerDadosBin();
     Cliente clien = null;
     Item item = null;
     
     
     public TelaPrincipal() {
-        this.control = savebin.carregar();
+        this.control = new Controller(); //savebin.carregar();
         //this.save = new SalvarLerDados(this.control);
         initComponents();
     }
@@ -965,11 +964,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             if (x < 0){
                 throw new NumberFormatException();
             }
+            Item it = new Item(jTextField1.getText(), BigDecimal.valueOf(x), jTextPane1.getText());
             control.criarItem(jTextField1.getText(), x, jTextPane1.getText());
         
-            JOptionPane.showMessageDialog(this, "Nome: " + control.getItens().get(control.getItens().size() - 1).getNome() + 
-                "\npreco: " + control.getItens().get(control.getItens().size() - 1).getPrecoUnitario().toString() +
-                "\ncomentario: " + control.getItens().get(control.getItens().size() - 1).getDescricao(),
+            JOptionPane.showMessageDialog(this, "Nome: " + it.getNome() +
+                "\npreco: " + it.getPrecoUnitario().toString() +
+                "\ncomentario: " + it.getDescricao(),
                     "Item cadastrado", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e){
             JOptionPane.showMessageDialog(this, "Use apenas numeros reais positivos",
@@ -1025,6 +1025,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             control.getPedido().setItens(control.getItens().get(jComboBox1.getSelectedIndex()));
         }catch (IndexOutOfBoundsException e){
             return;
+        } catch (NullPointerException e){
+            return;
         }
         listaPedidoItens();
         jLabel15.setText(String.valueOf(control.getPreco()));
@@ -1033,16 +1035,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if( control.pedidoVazio()){
             JOptionPane.showMessageDialog(this, "Pedido nao pode ser fechado",
-                    "Busca", JOptionPane.ERROR_MESSAGE);
+                    "Vazio", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (!control.getPedido().isPedidoAberto()){
             JOptionPane.showMessageDialog(this, "Pedido nao pode ser fechado",
-                    "Busca", JOptionPane.ERROR_MESSAGE);
+                    "Fechado", JOptionPane.ERROR_MESSAGE);
             return;
         }
         control.getPedido().fecharPedido();
-        control.getPedidos().add(control.getPedido());
+        control.cadastraPedido();
         JOptionPane.showMessageDialog(this, "Pedido finalizado",
                 "Pedido", JOptionPane.INFORMATION_MESSAGE);
         control.esvaziaPedido();
@@ -1061,9 +1063,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
 
-        savebin.salvar(control);
-        JOptionPane.showMessageDialog(this, "Salvo com sucesso",
-                    "Salvar", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenu5MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -1104,6 +1103,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
         clien.setNome(jTextField8.getText());
         clien.setTelefone(jTextField9.getText());
+        control.editarCliente(clien);
         JOptionPane.showMessageDialog(this, "Cliente Editado",
                     "Buscar cliente", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -1160,6 +1160,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
             item.setPrecoUnitario(BigDecimal.valueOf(x));
             item.setDescricao(jTextField12.getText());
+            control.editarItem(item);
         } catch (NumberFormatException e){
             JOptionPane.showMessageDialog(this, "Use apenas numeros reais positivos",
                     "Formato incorreto", JOptionPane.ERROR_MESSAGE);
@@ -1184,10 +1185,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void listaItens(){
         DefaultTableModel tabItens = (DefaultTableModel) jTable1.getModel();
         tabItens.setRowCount(0);
-        for(int i = 0; i < control.getItens().size(); i++){
-            tabItens.insertRow(i, new Object []{control.getItens().get(i).getNome(), control.getItens().get(i).getPrecoUnitario().toString()});
+        List<Item> itens = control.getItens();
+
+        for(int i = 0; i < itens.size(); i++){
+            tabItens.insertRow(i, new Object []{itens.get(i).getNome(), itens.get(i).getPrecoUnitario().toString()});
         }
-        tabItens.setRowCount(control.getItens().size());
+        tabItens.setRowCount(itens.size());
         tabItens.fireTableDataChanged();
         jTable1.setModel(tabItens); 
     }
@@ -1205,18 +1208,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     private void comboBoxInsert(){
         jComboBox1.removeAllItems();
-        for(int i = 0; i < control.getItens().size(); i++){
-            jComboBox1.addItem(control.getItens().get(i).getNome());
+        List<Item> itens = control.getItens();
+        for(int i = 0; i < itens.size(); i++){
+            jComboBox1.addItem(itens.get(i).getNome());
         }
     }
     
     private void listaClientes(){
         DefaultTableModel tabClientes = (DefaultTableModel) jTable2.getModel();
         tabClientes.setRowCount(0);
-        for(int i = 0; i < control.getClientes().size(); i++){
-            tabClientes.insertRow(i, new Object []{control.getClientes().get(i).getEndereco(), control.getClientes().get(i).getNome(), control.getClientes().get(i).getTelefone()});
+        List<Cliente> cli = control.getClientes();
+        for(int i = 0; i < cli.size(); i++){
+            tabClientes.insertRow(i, new Object []{cli.get(i).getEndereco(), cli.get(i).getNome(), cli.get(i).getTelefone()});
         }
-        tabClientes.setRowCount(control.getClientes().size());
+        tabClientes.setRowCount(cli.size());
         tabClientes.fireTableDataChanged();
         jTable2.setModel(tabClientes);
         
@@ -1225,12 +1230,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void listaPedidos(){
         DefaultTableModel tabPedidos = (DefaultTableModel) jTable5.getModel();
         tabPedidos.setRowCount(0);
-        for(int i = 0; i < control.getPedidos().size(); i++){
-            tabPedidos.insertRow(i, new Object []{ control.getPedidos().get(i).getCliente().getNome(), 
-                control.getPedidos().get(i).getNumero(), 
-                control.getPedidos().get(i).getValorTotal().toString()});
+        List<Pedido> ped = control.getPedidos();
+        for(int i = 0; i < ped.size(); i++){
+            tabPedidos.insertRow(i, new Object []{ ped.get(i).getCliente().getNome(),
+                ped.get(i).getNumero(),
+                ped.get(i).getValorTotal().toString()});
         }
-        tabPedidos.setRowCount(control.getPedidos().size());
+        tabPedidos.setRowCount(ped.size());
         tabPedidos.fireTableDataChanged();
         jTable5.setModel(tabPedidos);
         

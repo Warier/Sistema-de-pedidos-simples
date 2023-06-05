@@ -10,10 +10,11 @@ import java.util.List;
 public class Controller implements Serializable{
 
     private static long serialVersionUID = 1L;
-    private final List<Item> itens = new ArrayList<>();
-    private final List<Cliente> clientes = new ArrayList<>();
-    private final List<Pedido> pedidos = new ArrayList<>();
+
     private Pedido pedido = null;
+    private ClienteDAO cliDAO = new ClienteDAO();
+    private ItemDAO itDAO = new ItemDAO();
+    private PedidoDAO pedDAO = new PedidoDAO();
 
     public Pedido getPedido() {
         return pedido;
@@ -29,6 +30,14 @@ public class Controller implements Serializable{
     public void setPedido(Cliente cliente){
         this.pedido = new Pedido(cliente);
     }
+
+    public void cadastraPedido(){
+        try {
+            pedDAO.cadastrar(this.pedido);
+        }catch (RuntimeException e){
+            System.out.println(e);
+        }
+    }
     
     public double getPreco(){
         double x = 0;
@@ -43,106 +52,116 @@ public class Controller implements Serializable{
     }
 
     public void criarItem(String nome, double preco, String descricao){
-        itens.add(new Item(nome, BigDecimal.valueOf(preco), descricao));
+        try {
+            itDAO.cadastrar(new Item(nome, BigDecimal.valueOf(preco), descricao));
+        }catch (RuntimeException e){
+
+        }
     }
 
     public void cadastrarCliente(String nome, String endereco, String telefone){
-        clientes.add(new Cliente(nome, endereco, telefone));
+        try {
+            cliDAO.cadastrar(new Cliente(nome, endereco, telefone));
+        }catch (RuntimeException e){
+
+        }
     }
 
-    public void criarPedido(Cliente cliente){
-        pedidos.add(new Pedido(cliente));
-    }
-    
-    public void carregarPedidos(String cpf, int numero, double preco){
-        Cliente clien = buscarCliente(cpf);
-        pedidos.add(new Pedido(numero, clien, preco));
-    }
 
     public boolean apagarItem(Item item){
-        if(itens.contains(item)) {
-            itens.remove(item);
-            return true;
+        try {
+            if (itDAO.consultar(item) != null) {
+                itDAO.apagar(item);
+                return true;
+            }
+            return false;
+        } catch (RuntimeException e){
+            return false;
         }
-        return false;
     }
 
     public boolean apagarCliente(Cliente cliente){
-        if(clientes.contains(cliente)){
-            clientes.remove(cliente);
-            return true;
+        try {
+            if (cliDAO.consultar(cliente) != null) {
+                cliDAO.apagar(cliente);
+                return true;
+            }
+            return false;
+        } catch (RuntimeException e){
+            return false;
         }
-        return false;
     }
 
-    public boolean apagarPedido(Pedido pedido){
-        if (pedidos.contains(pedido)){
-            pedidos.remove(pedido);
-            return true;
-        }
-        return false;
-    }
 
-    public boolean existe(Object x){
-        if(x.getClass() == Item.class){
-            if(itens.contains(x)){
-                return true;
-            }
-            return false;
-        } else if (x.getClass() == Cliente.class) {
-            if(clientes.contains(x)){
-                return true;
-            }
-            return false;
-        } else if (x.getClass() == Pedido.class) {
-            if(pedidos.contains(x)){
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
 
     public List<Item> getItens() {
-        return itens;
+        try {
+            return itDAO.listar();
+        } catch (RuntimeException e){
+            return null;
+        }
     }
 
     public List<Cliente> getClientes() {
-        return clientes;
+        try {
+            return cliDAO.listar();
+        }catch (RuntimeException e){
+            return null;
+        }
     }
 
     public List<Pedido> getPedidos() {
-        return pedidos;
+        try {
+            return pedDAO.listar();
+        }catch (RuntimeException e){
+            return null;
+        }
     }
     
     public Cliente buscarCliente(String cpf){
-        for(Cliente x:clientes){
-            if(x.getEndereco().equals(cpf)){
-                return x;
-            }
-            
+        Cliente x = new Cliente(cpf);
+        try{
+            x = cliDAO.consultar(x);
+        } catch (RuntimeException e){
+            return null;
         }
+        if(x != null){
+            return x;
+        }
+
         return null;
     }
+
     
     public Item buscaItem(String nome){
-        for(Item x:itens){
-            if(x.getNome().equals(nome)){
-                return x;
-            }
+        Item x = new Item(nome);
+        try{
+            x = itDAO.consultar(x);
+        } catch (RuntimeException e){
+            return null;
         }
-        return null;
-    }
-    
-    public Pedido buscarPedido(int num){
-        for(Pedido x:pedidos){
-            if(x.getNumero() == num){
-                return x;
-            }
+        if(x != null){
+            return x;
         }
-        return null;
-    }
-    
 
+        return null;
+    }
+
+
+    public void editarCliente(Cliente cliente){
+        try {
+            cliDAO.alterar(cliente);
+        }catch (RuntimeException e){
+
+        }
+    }
+
+    public void editarItem(Item item){
+        try {
+            itDAO.alterar(item);
+        }catch (RuntimeException e){
+
+        }
+    }
 
 }

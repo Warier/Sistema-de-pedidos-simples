@@ -15,6 +15,10 @@ public class Item implements Serializable{
         this.descricao = descricao;
     }
 
+    public Item(String nome){
+        this.nome = nome;
+    }
+
     public String getNome() {
         return nome;
     }
