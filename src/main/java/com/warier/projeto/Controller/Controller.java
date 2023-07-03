@@ -1,11 +1,23 @@
 package com.warier.projeto.Controller;
 
 import com.warier.projeto.Model.*;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Controller implements Serializable{
 
@@ -15,6 +27,48 @@ public class Controller implements Serializable{
     private ClienteDAO cliDAO = new ClienteDAO();
     private ItemDAO itDAO = new ItemDAO();
     private PedidoDAO pedDAO = new PedidoDAO();
+    private File report = new File(System.getProperty("user.dir") + "/report");
+
+    private Map parametroCliente(String cpf) {
+        Map params = new HashMap();
+        params.put("cpf", cpf);
+        return params;
+    }
+
+    public void relatorioCliente(String cpf){
+        JasperPrint impressao;
+        try{
+            FileInputStream rel = new FileInputStream(new File(report, "Cliente.jasper"));
+            impressao = JasperFillManager.fillReport(rel, parametroCliente(cpf), Conexao.getConnection());
+            JasperViewer.viewReport(impressao, false);
+        } catch (FileNotFoundException | JRException | RuntimeException e) {
+            System.err.println("Não foi possível exportar o relatório.\n\n" + e);
+        }
+    }
+
+    public void relatorioItens(){
+
+        JasperPrint impressao;
+            try{
+                FileInputStream rel = new FileInputStream(new File(report, "itens.jasper"));
+                impressao = JasperFillManager.fillReport(rel, null, Conexao.getConnection());
+                JasperViewer.viewReport(impressao, false);
+            } catch (FileNotFoundException | JRException | RuntimeException e) {
+                System.err.println("Não foi possível exportar o relatório.\n\n" + e);
+            }
+    }
+
+    public void relatorioPedido(){
+
+        JasperPrint impressao;
+        try{
+            FileInputStream rel = new FileInputStream(new File(report, "Pedidos.jasper"));
+            impressao = JasperFillManager.fillReport(rel, null, Conexao.getConnection());
+            JasperViewer.viewReport(impressao, false);
+        } catch (FileNotFoundException | JRException | RuntimeException e) {
+            System.err.println("Não foi possível exportar o relatório.\n\n" + e);
+        }
+    }
 
     public Pedido getPedido() {
         return pedido;
@@ -68,6 +122,7 @@ public class Controller implements Serializable{
     }
 
 
+
     public boolean apagarItem(Item item){
         try {
             if (itDAO.consultar(item) != null) {
@@ -98,7 +153,7 @@ public class Controller implements Serializable{
         try {
             return itDAO.listar();
         } catch (RuntimeException e){
-            return null;
+            return new ArrayList<Item>();
         }
     }
 
@@ -106,7 +161,7 @@ public class Controller implements Serializable{
         try {
             return cliDAO.listar();
         }catch (RuntimeException e){
-            return null;
+            return new ArrayList<Cliente>();
         }
     }
 
@@ -114,7 +169,7 @@ public class Controller implements Serializable{
         try {
             return pedDAO.listar();
         }catch (RuntimeException e){
-            return null;
+            return new ArrayList<Pedido>();
         }
     }
     

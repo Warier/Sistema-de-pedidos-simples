@@ -27,6 +27,7 @@ public class ItemDAO {
             stmt.setString(3, item.getDescricao());
 
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,6 +42,7 @@ public class ItemDAO {
             stmt.setString(1, item.getNome());
 
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -55,6 +57,7 @@ public class ItemDAO {
             stmt.setString(2, item.getDescricao());
             stmt.setString(3, item.getNome());
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

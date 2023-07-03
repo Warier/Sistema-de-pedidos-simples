@@ -26,6 +26,7 @@ public class PedidoDAO {
             stmt.setBigDecimal(3, pedido.getValorTotal());
 
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

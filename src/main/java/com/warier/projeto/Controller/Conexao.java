@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Conexao {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String USER = "";
-    private static final String PASSWORD = "";
+    private static final String URL = "jdbc:mysql://localhost:3306/mydb";
+    private static final String USER = "root";
+    private static final String PASSWORD = "wariercraft";
 
 
     public static Connection getConnection() {
@@ -16,9 +16,13 @@ public class Conexao {
 
             Class.forName("com.mysql.jdbc.Driver");
 
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn.setAutoCommit(false);
+            return conn;
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }

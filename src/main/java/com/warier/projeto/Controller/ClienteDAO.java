@@ -16,6 +16,8 @@ public class ClienteDAO {
     private static final String sqlalterar = "UPDATE Clientes SET nome = ?, telefone = ? WHERE RG = ?";
     private static final String sqlTabela = "SELECT RG, nome, telefone FROM Clientes";
 
+
+
     public void cadastrar(Cliente cliente) {
 
         try (Connection conn = Conexao.getConnection();
@@ -27,6 +29,7 @@ public class ClienteDAO {
             stmt.setString(3, cliente.getTelefone());
 
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,6 +44,7 @@ public class ClienteDAO {
             stmt.setString(1, cliente.getEndereco());
 
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -55,6 +59,7 @@ public class ClienteDAO {
             stmt.setString(2, cliente.getTelefone());
             stmt.setString(3, cliente.getEndereco());
             stmt.executeUpdate();
+            conn.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

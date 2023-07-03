@@ -126,7 +126,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -872,18 +875,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuBar.add(jMenu4);
 
-        jMenu5.setText("Salvar");
-        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu5MouseClicked(evt);
-            }
-        });
-        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+        jMenu6.setText("Relatorios");
+
+        jMenuItem9.setText("Relatorio de itens");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu5ActionPerformed(evt);
+                jMenuItem9ActionPerformed(evt);
             }
         });
-        jMenuBar.add(jMenu5);
+        jMenu6.add(jMenuItem9);
+
+        jMenuItem10.setText("Relatorio de Pedidos");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+
+        jMenuItem11.setText("Relatorio de Cliente personalizado");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem11);
+
+        jMenuBar.add(jMenu6);
 
         setJMenuBar(jMenuBar);
 
@@ -1057,14 +1075,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mostrarCard("card4");
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
-
-    }//GEN-LAST:event_jMenu5ActionPerformed
-
-    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
-
-    }//GEN-LAST:event_jMenu5MouseClicked
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -1181,6 +1191,31 @@ public class TelaPrincipal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Item excluido",
                     "Buscar Item", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        String cpf = JOptionPane.showInputDialog(
+                this,
+                "Digite o cpf do cliente para o relatório",
+                "Entrada de dados",
+                JOptionPane.QUESTION_MESSAGE);
+        if(control.buscarCliente(cpf) == null){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Nao foi encontrado o cliente com esse cpf",
+                    "Erro de entrada",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        control.relatorioCliente(cpf);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        control.relatorioPedido();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        control.relatorioItens();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void listaItens(){
         DefaultTableModel tabItens = (DefaultTableModel) jTable1.getModel();
@@ -1324,9 +1359,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -1334,6 +1371,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
